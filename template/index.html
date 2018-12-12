@@ -23,7 +23,7 @@
                     $("#messages").append('<li>'+ msg +'</li>');
                 });
 
-                socket.on('over', function(msg) {
+                socket.on('get relevant', function(msg) {
                     $("#messages").append('<li>'+ msg +'</li>');
                 });
 

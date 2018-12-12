@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+
 import requests
 
 
@@ -56,16 +57,3 @@ def get_jobs(query_param):
         soup = boil_soup(query_param)
 
         scrape(soup)
-
-
-def run():
-    query_param = {
-                       'explvl': 'entry_level',
-                       'l': 'new+york',
-                       'q': 'python+software+engineer',
-                       'jt': 'fulltime'
-                    }
-    get_jobs(query_param)
-
-
-run()
