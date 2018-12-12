@@ -1,7 +1,7 @@
 from flask import Flask, render_template
 from flask_socketio import SocketIO, send, emit
 
-# from data import run
+from data import get_jobs
 
 import time
 import json
@@ -17,17 +17,28 @@ ASK = [("What job role are you looking for?", 'q'),
        ("What is you level of experience? (entry, mid or senior)", 'explvl'),
        ("Are you looking for a full time, part time or an internship position", 'jt'),
        ("With a salary expectation of..?", 'q2'),
-       ("Which city would you like to work at?", 'l')]
+       ("Which city would you like to work at?", 'l'),
+       ("Any other relevant keywords?", 'keywords')]
 
 DATA = {}
 
 
 def parse_data():
+    query = DATA['keywords'] + DATA['l'] + ' ' + DATA['q']
+
     DATA['q2'] = '$' + DATA['q2'] if '$' not in DATA['q2'] else DATA['q2']
     DATA['q'] = DATA['q'].replace(' ', '+').lower()
     DATA['explvl'] = f"{DATA['explvl'].lower()}_level"
     DATA['jt'] = DATA['jt'].replace(' ', '').lower()
     DATA['l'] = DATA['l'].replace(' ', '+').lower()
+    DATA['keywords'] = DATA['keywords'].lower()
+
+    if DATA['keywords'].lower() == 'no':
+        del DATA['keywords']
+
+    print(query)
+
+    print(get_jobs(query, DATA))
 
 
 @socket_io.on('init')

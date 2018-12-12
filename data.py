@@ -1,5 +1,7 @@
 from bs4 import BeautifulSoup
 
+from util import tf_idf
+
 import requests
 
 
@@ -23,10 +25,11 @@ def scrape(soup):
 
     for item in soup.find_all('div', {'data-tn-component': 'organicJob'}):
         imp = item.find('h2')
+        uri = f"https://www.indeed.com{imp.find('a')['href']}"
 
-        soup = boil_soup({}, f"https://www.indeed.com{imp.find('a')['href']}")
+        soup = boil_soup({}, uri)
 
-        retval[imp.find('a').text] = soup.find('div', {'class', 'jobsearch-JobComponent-description icl-u-xs-mt--md'}).text
+        retval[f"https://www.indeed.com{imp.find('a')['href']}"] = soup.find('div', {'class', 'jobsearch-JobComponent-description icl-u-xs-mt--md'}).text
 
     return retval
 
@@ -42,7 +45,7 @@ def boil_soup(query_param, link=None):
     return BeautifulSoup(page.text, features='lxml')
 
 
-def get_jobs(query_param):
+def get_jobs(cwith, query_param):
 
     soup = boil_soup(query_param)
 
@@ -51,9 +54,17 @@ def get_jobs(query_param):
 
     run_till = plen if plen <= 4 else 4
 
+    retval = {}
+
     for p_num in range(0, run_till+1):
         query_param['start'] = (p_num + 1) * 10
 
         soup = boil_soup(query_param)
 
-        scrape(soup)
+        retval.update(scrape(soup))
+
+    idx_list = tf_idf(list(retval.values()), cwith)
+
+    links = list(retval.keys())
+
+    return [links[idx] for idx in idx_list]
