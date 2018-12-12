@@ -76,7 +76,8 @@ def handle_conversation(msg):
             emit('message', sdata)
             break
     else:
-        emit('get relevant', 'Hold on, searching appropriate job roles that you could apply to')
+        emit('get relevant', 'Hold on, searching appropriate job roles that would be a great for you, '
+                             'this might about 10 seconds though')
         parse_data()
 
 
