@@ -36,9 +36,12 @@ def parse_data():
     if DATA['keywords'].lower() == 'no':
         del DATA['keywords']
 
-    print(query)
+    res = get_jobs(query, DATA)
 
-    print(get_jobs(query, DATA))
+    if not res:
+        emit('result', json.dumps({'text': f"Your job query dint throw up anything, check another time"}))
+    else:
+        emit('result', json.dumps({'text': f"Relevant jobs - {' '.join(res)}"}))
 
 
 @socket_io.on('init')

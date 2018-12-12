@@ -49,6 +49,9 @@ def get_jobs(cwith, query_param):
 
     soup = boil_soup(query_param)
 
+    if soup.find_all('div', {'class': 'bad_query'}):
+        return []
+
     pagination = soup.find('div', 'pagination')
     plen = len(pagination.find_all('a'))
 
