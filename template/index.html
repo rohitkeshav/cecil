@@ -1,0 +1,58 @@
+<html>
+
+    <head>
+        <title>Cecil</title>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.1/socket.io.js"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    </head>
+
+    <body>
+        <script type="text/javascript">
+
+            $(document).ready(function() {
+                const socket = io.connect('http://127.0.0.1:5000');
+                let qObject = {};
+                let currentKey = '';
+
+                socket.on('connect', function() {
+                    socket.emit('init', {'connected': true});
+                });
+
+                socket.on('hey', function(msg) {
+                    $("#messages").append('<li>'+ msg +'</li>');
+                });
+
+                socket.on('over', function(msg) {
+                    $("#messages").append('<li>'+ msg +'</li>');
+                });
+
+                socket.on('message', function(msg) {
+                    const obj = JSON.parse(msg);
+
+                    $("#messages").append('<li>'+ obj['question'][0] +'</li>');
+
+                    currentKey = obj['question'][1]
+                });
+
+                $('#sendbutton').on('click', function() {
+
+                    qObject[currentKey] = $('#myMessage').val();
+                    console.log(qObject);
+
+                    socket.send(qObject);
+
+                    $("#messages").append('<li>'+ $('#myMessage').val() +'</li>');
+                    $('#myMessage').val('')
+                });
+            });
+
+        </script>
+
+    <ul id="messages"></ul>
+    <input type="text" id="myMessage">
+    <button id="sendbutton">Send</button>
+
+    </body>
+
+</html>
