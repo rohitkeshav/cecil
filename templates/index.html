@@ -8,20 +8,24 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.1/socket.io.js"></script>
         <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
         <style>
+
             body {
+              background: darkcyan;
               margin: 0 auto;
               max-width: 800px;
               padding: 0 20px;
             }
 
             .container {
+              max-width:500px;
               border: 2px solid #dedede;
               background-color: #f1f1f1;
               border-radius: 5px;
               padding: 10px;
-              margin: 10px 0;
+              margin: 10px;
             }
 
             .darker {
@@ -62,7 +66,11 @@
 
     </head>
 
-    <body>
+    <body style='font-family: "Roboto san-serif;"'>
+
+    <h1 align="center"><b>Cecil</b></h1>
+    <h3 align="center"><b>Job discovery chatbot</b></h3>
+
         <script type="text/javascript">
 
             $(document).ready(function() {
@@ -75,23 +83,23 @@
                 });
 
                 socket.on('hey', function(msg) {
-                    $("#messages").append('<div class="container"><p>' + msg + '</p></div>');
+                    $("#messages").append('<div class="container"><p style="font-size: 20px">' + msg + '</p></div>');
                 });
 
                 socket.on('get relevant', function(msg) {
-                    $("#messages").append('<div class="container"><p>' + msg + '</p></div>');
+                    $("#messages").append(' <label style="font-size: 18px">Cecil</label> <div class="container"><p style="font-size: 20px">' + msg + '</p></div>');
                 });
 
                 socket.on('result', function(msg) {
                     const obj = JSON.parse(msg);
 
-                    $("#messages").append('<div class="container"><p>' + obj['text'] + '</p></div>');
+                    $("#messages").append(' <label style="font-size: 18px">Cecil</label> <div class="container"><p style="font-size: 20px">' + obj['text'] + '</p></div>');
                 });
 
                 socket.on('message', function(msg) {
                     const obj = JSON.parse(msg);
 
-                    $("#messages").append('<div class="container"><p>'+ obj['question'][0] +'</p></div>');
+                    $("#messages").append(' <label style="font-size: 18px">Cecil</label> <div class="container"><p style="font-size: 20px">'+ obj['question'][0] +'</p></div>');
 
                     currentKey = obj['question'][1]
                 });
@@ -103,7 +111,7 @@
 
                     socket.send(qObject);
 
-                    $("#messages").append('<div class="container darker"><p>'+ $('#myMessage').val() +'</p></div>');
+                    $("#messages").append(' <label style="font-size: 18px">Job Seeker</label>  <div class="container darker"><p style="font-size: 20px">'+ $('#myMessage').val() +'</p></div>');
                     $('#myMessage').val('')
                 });
             });
@@ -112,21 +120,19 @@
         <div id="messages">
 
         </div>
-        <!--change this-->
-        <!--<ul id="messages"></ul>-->
 
         <!--Input-->
         <div class="row">
+
             <div style="padding-top: 10px; padding-left: 13px;" class="col">
                 <input type="text" id="myMessage" style="width:300px;" class="form-control" placeholder="Reply">
             </div>
-            <div style="padding-top: 10px; padding-left: 13px;" class="col">
-                <button type="button" id="sendbutton" class="btn btn-primary">Send</button>
-            </div>
-        </div>
 
-        <!--<input type="text" id="myMessage">-->
-        <!--<button id="sendbutton">Send</button>-->
+            <div style="padding-top: 10px; padding-left: 13px;" class="col">
+                <button type="button" id="sendbutton" style="background-color: azure; color: black; font-size: 20px;" class="btn btn-primary">Send</button>
+            </div>
+
+        </div>
 
     </body>
 

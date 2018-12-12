@@ -15,12 +15,17 @@ socket_io = SocketIO(app)
 # TODO: use AIML to overhaul the logic
 ASK = [("What job role are you looking for?", 'q'),
        ("What is you level of experience? (entry, mid or senior)", 'explvl'),
-       ("Are you looking for a full time, part time or an internship position", 'jt'),
+       ("Are you looking for a full time, part time or an internship position?", 'jt'),
        ("With a salary expectation of..?", 'q2'),
        ("Which city would you like to work at?", 'l'),
-       ("Any other relevant keywords?", 'keywords')]
+       ("Any other relevant keywords that you would want me to keep in mind?", 'keywords')]
 
 DATA = {}
+
+
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 
 def parse_data():
