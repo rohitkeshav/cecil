@@ -6,7 +6,8 @@ import requests
 
 
 BASE_URL = "https://www.indeed.com/jobs"
-# Sample usage - "https://www.indeed.com/jobs?q=python+software+engineer+$135,000&l=new+york&jt=fulltime&explvl=entry_level"
+# Sample usage - "https://www.indeed.com/jobs?q=python+software+engineer+$135,
+# 000&l=new+york&jt=fulltime&explvl=entry_level"
 
 
 def convert_2_qparams(rdict):
